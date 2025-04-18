@@ -1,3 +1,5 @@
+from playwright.async_api import async_playwright
+
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
@@ -10,10 +12,13 @@ import platform
 import time
 from datetime import datetime
 
+from astrbot.core import AstrBotConfig
+
 
 class StatusPrPr:
-    def __init__(self):
+    def __init__(self, nums):
         # 默认配置
+        self.plugin_nums = nums
         self.config = {
             "command": "prprstatus",
             "authority": 1,
@@ -218,7 +223,7 @@ class StatusPrPr:
                 },
                 {
                     "key": "Plugins",
-                    "value": "N/A loaded in total",
+                    "value": f"已经加载了{self.plugin_nums}个插件",
                 },
             ],
         }
@@ -740,11 +745,28 @@ class StatusPrPr:
 
         return html
 
+
+async def render_html_to_image(content, output_path="output.png"):
+    """将HTML内容渲染为图片"""
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
+
+        # 加载HTML内容
+        await page.set_content(content)
+
+        # 截图并保存
+        await page.screenshot(path=output_path, full_page=True)
+        await browser.close()
+    return output_path
+
+
 @register("status-pro", "StatusPro", "一个显示系统状态的插件", "1.0.0")
 class MyPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
-        self.status_generator = StatusPrPr()
+        self.plugin_nums = len(context.get_all_stars())
+        self.status_generator = StatusPrPr(self.plugin_nums)
 
     async def initialize(self):
         """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
@@ -759,10 +781,14 @@ class MyPlugin(Star):
     async def handle_status_request(self, event: AstrMessageEvent) -> MessageEventResult:
         """处理请求系统状态的命令"""
         logger.info("收到系统状态请求")
+        try:
+            # 生成 HTML
+            html_content = self.status_generator.generate_html()
+            # 渲染 HTML 为图片
+            await render_html_to_image(html_content)
 
-        # 生成HTML内容
-        html_content = self.status_generator.generate_html()
-        # 发送HTML内容
-        if html_content:
-            url = await self.html_render(html_content, {})
-            yield event.image_result(url)
+            yield event.image_result("output.png")
+        except Exception as e:
+            logger.error(f"生成状态图片失败: {str(e)}")
+            yield event.make_result().message("生成状态图片失败，请检查配置或环境。")
+
