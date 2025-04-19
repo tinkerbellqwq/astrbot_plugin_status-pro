@@ -1,5 +1,3 @@
-from email.policy import default
-
 from playwright.async_api import async_playwright
 
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
@@ -7,18 +5,30 @@ from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
 
 import os
-import json
 import random
 import psutil
 import platform
 import time
-from datetime import datetime
 
 from astrbot.core import AstrBotConfig
 
 
 class StatusPrPr:
-    def __init__(self):
+    def __init__(self,
+                    botNameColorful = False, # 是否使用彩色渐变
+                    botNameColor = "rgba(85,70,163,0.8)", # 机器人名称颜色
+                    botProfileblurs = 0.8, # 机器人头像模糊度
+                    logoblurs = 0.5, # logo模糊度
+                    Backgroundblurs = 15, # 背景模糊度
+                    Backgroundcolor = "rgba(230, 215, 235, 0.692)", # 背景颜色
+                    dashboardTextColor1 = "rgba(29,131,190,1)", # 仪表盘文本颜色1
+                    dashboardTextColor2 = "rgba(149,40,180,1)", # 仪表盘文本颜色2
+                    dashboardTextColor3 = "rgba(77,166,12,1)", # 仪表盘文本颜色3
+                    dashboardTextColor4 = "rgba(56,91,119,1)", # 仪表盘文本颜色4
+                    systeminformationTextColor = "rgba(25,99,160,1)", # 系统信息文本颜色
+                    DashedboxThickn = 3, # 虚线框的粗细
+                    Dashedboxcolor = "rgba(183,168,158,1)", # 虚线框颜色
+                 ):
         # 默认配置
         self.config = {
             "command": "prprstatus",
@@ -29,19 +39,19 @@ class StatusPrPr:
                 os.path.join(os.path.dirname(__file__), 'htmlmaterial/ba.txt')
             ],
             "HTML_setting": {
-                "botNameColorful": False,
-                "botNameColor": "rgba(85,70,163,0.8)",
-                "botProfileblurs": 0.8,
-                "logoblurs": 0.5,
-                "Backgroundblurs": 15,
-                "Backgroundcolor": "rgba(230, 215, 235, 0.692)",
-                "dashboardTextColor1": "rgba(29,131,190,1)",
-                "dashboardTextColor2": "rgba(149,40,180,1)",
-                "dashboardTextColor3": "rgba(77,166,12,1)",
-                "dashboardTextColor4": "rgba(56,91,119,1)",
-                "systeminformationTextColor": "rgba(25,99,160,1)",
-                "DashedboxThickn": 3,
-                "Dashedboxcolor": "rgba(183,168,158,1)",
+                "botNameColorful": botNameColorful,
+                "botNameColor": botNameColor,
+                "botProfileblurs": botProfileblurs,
+                "logoblurs": logoblurs,
+                "Backgroundblurs": Backgroundblurs,
+                "Backgroundcolor": Backgroundcolor,
+                "dashboardTextColor1": dashboardTextColor1,
+                "dashboardTextColor2": dashboardTextColor2,
+                "dashboardTextColor3": dashboardTextColor3,
+                "dashboardTextColor4": dashboardTextColor4,
+                "systeminformationTextColor": systeminformationTextColor,
+                "DashedboxThickn": DashedboxThickn,
+                "Dashedboxcolor": Dashedboxcolor,
                 "textfont1": "./font/Gugi-Regular.ttf",
                 "textfont2": "./font/HachiMaruPop-Regular.ttf"
             },
@@ -769,6 +779,19 @@ class MyPlugin(Star):
 
         is_use_default = config.get("is_use_default", True)
         background_images = config.get("background_images", [])
+        botNameColorful = config.get("botNameColorful", False)  # 是否使用彩色渐变
+        botNameColor = config.get("botNameColor", "rgba(85,70,163,0.8)")  # 机器人名称颜色
+        botProfileblurs = config.get("botProfileblurs", 0.8)  # 机器人头像模糊度
+        logoblurs = config.get("logoblurs", 0.5)  # logo模糊度
+        Backgroundblurs = config.get("Backgroundblurs", 15)  # 背景模糊度
+        Backgroundcolor = config.get("Backgroundcolor" ,"rgba(230, 215, 235, 0.692)")  # 背景颜色
+        dashboardTextColor1 = config.get("dashboardTextColor1","rgba(29,131,190,1)")  # 仪表盘文本颜色1
+        dashboardTextColor2 = config.get("dashboardTextColor2","rgba(149,40,180,1)")  # 仪表盘文本颜色2
+        dashboardTextColor3 = config.get("dashboardTextColor3","rgba(77,166,12,1)")  # 仪表盘文本颜色3
+        dashboardTextColor4 = config.get("dashboardTextColor4", "rgba(56,91,119,1)") # 仪表盘文本颜色4
+        systeminformationTextColor = config.get("systeminformationTextColor", "rgba(25,99,160,1)")  # 系统信息文本颜色
+        DashedboxThickn = config.get("DashedboxThickn", 3)  # 虚线框的粗细
+        Dashedboxcolor = config.get("Dashedboxcolor", "rgba(183,168,158,1)")  # 虚线框颜色
 
         background_urls = []
         # 使用默认
@@ -784,7 +807,10 @@ class MyPlugin(Star):
             for image in background_images:
                 background_urls.append(image)
         # 更新配置
-        self.status_generator = StatusPrPr()
+        self.status_generator = StatusPrPr(botNameColorful, botNameColor, botProfileblurs, logoblurs,
+                                          Backgroundblurs, Backgroundcolor, dashboardTextColor1,
+                                          dashboardTextColor2, dashboardTextColor3, dashboardTextColor4,
+                                          systeminformationTextColor, DashedboxThickn, Dashedboxcolor)
         self.status_generator.config["BackgroundURL"] = background_urls
 
     async def initialize(self):

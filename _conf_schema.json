@@ -10,5 +10,83 @@
     "type": "list",
     "hint": "自定义的背景图列表，如: [\"https://example.com/image1.jpg\", \"https://example.com/image2.jpg\"]",
     "default": []
+  },
+  "botNameColorful": {
+    "description": "是否使用彩色昵称",
+    "type": "bool",
+    "hint": "是否使用彩色昵称，默认关闭",
+    "default": false
+  },
+  "botNameColor": {
+    "description": "Astrbot名称的颜色, 请填入rgba格式",
+    "type": "string",
+    "hint": "Astrbot名称的颜色，默认：rgba(85,70,163,0.8)，关于rgba你可以参考： 你可以参考网站：https://www.qianbo.com.cn/Tool/Rgba/",
+    "default": "rgba(85,70,163,0.8)"
+  },
+  "botProfileblurs": {
+    "description": "机器人头像模糊度",
+    "type": "float",
+    "hint": "机器人头像模糊度，默认值为0.8，范围为0-1",
+    "default": 0.8
+  },
+  "logoblurs": {
+    "description": "logo模糊度",
+    "type": "float",
+    "hint": "logo模糊度，默认值为0.5，范围为0-1",
+    "default": 0.5
+  },
+  "Backgroundblurs": {
+    "description": "背景模糊度半径",
+    "type": "int",
+    "hint": "背景模糊度，默认值为15，范围为0-100",
+    "default": 15
+  },
+  "Backgroundcolor": {
+    "description": "背景颜色，请填入rgba格式",
+    "type": "string",
+    "hint": "背景颜色，默认rgba(230, 215, 235, 0.692)",
+    "default": "rgba(230, 215, 235, 0.692)"
+  },
+  "dashboardTextColor1": {
+    "description": "仪表盘文本颜色1，请填入rgba格式",
+    "type": "string",
+    "hint": "仪表盘文本颜色1，默认rgba(29,131,190,1)",
+    "default": "rgba(29,131,190,1)"
+  },
+  "dashboardTextColor2": {
+    "description": "仪表盘文本颜色2，请填入rgba格式",
+    "type": "string",
+    "hint": "仪表盘文本颜色2，默认rgba(149,40,180,1)",
+    "default": "rgba(149,40,180,1)"
+  },
+  "dashboardTextColor3": {
+    "description": "仪表盘文本颜色3，请填入rgba格式",
+    "type": "string",
+    "hint": "仪表盘文本颜色3，默认rgba(77,166,12,1)",
+    "default": "rgba(77,166,12,1)"
+  },
+  "dashboardTextColor4": {
+    "description": "仪表盘文本颜色4，请填入rgba格式",
+    "type": "string",
+    "hint": "仪表盘文本颜色4，默认rgba(56,91,119,1)",
+    "default": "rgba(56,91,119,1)"
+  },
+  "systeminformationTextColor": {
+    "description": "系统信息文本颜色",
+    "type": "string",
+    "hint": "系统信息文本颜色，默认rgba(25,99,160,1)",
+    "default": "rgba(25,99,160,1)"
+  },
+  "DashedboxThickn": {
+    "description": "虚线框厚度",
+    "type": "int",
+    "hint": "虚线框厚度，默认值为3，范围为0-20",
+    "default": 3
+  },
+  "Dashedboxcolor": {
+    "description": "虚线框颜色",
+    "type": "string",
+    "hint": "虚线框颜色，默认rgba(183,168,158,1)",
+    "default": "rgba(183,168,158,1)"
   }
 }
