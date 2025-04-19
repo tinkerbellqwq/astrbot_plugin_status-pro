@@ -1,5 +1,5 @@
 name: status-pro # 这是你的插件的唯一识别名。
-desc: 稍微好看一点的系统信息展示 # 插件简短描述
-version: v1.4 # 插件版本号。格式：v1.1.1 或者 v1.1
+desc: 稍微好看一点的系统信息展示，支持自定义颜色，背景！ # 插件简短描述
+version: v1.5 # 插件版本号。格式：v1.1.1 或者 v1.1
 author: tinker # 作者
 repo: https://github.com/tinkerbellqwq/astrbot_plugin_status-pro # 插件的仓库地址
