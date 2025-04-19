@@ -256,8 +256,8 @@ class StatusPrPr:
             bot_name_title_text = """
 #background-page .__title-text {
     font-family: "HachiMaruPop";
-    font-size: 60px;
-    line-height: 58px;
+    font-size: 70px;
+    line-height: 68px;
     /* 设置文字填充为透明 */
     color: transparent;
     /* 应用彩虹色渐变 */
@@ -282,8 +282,8 @@ class StatusPrPr:
             bot_name_title_text = f"""
 #background-page .__title-text {{
     font-family: "HachiMaruPop";
-    font-size: 50px;
-    line-height: 58px;
+    font-size: 60px;
+    line-height: 68px;
     color: {self.config["HTML_setting"]["botNameColor"]};
     -webkit-text-stroke: 1px var(--main-color);
     margin-left: 18px; /* 在文本和图片之间添加一些间隔 */
@@ -472,7 +472,7 @@ class StatusPrPr:
 #background-page .__information-block__key,
 #background-page .__information-block__key, #background-page .__information-block__value {{
     line-height: 42px;
-    font-size: 28px;
+    font-size: 32px;
     font-family: "Gugi";
     color: {self.rgba_to_hex(self.config["HTML_setting"]["systeminformationTextColor"])}; /*系统信息的颜色*/
 }}
@@ -480,7 +480,7 @@ class StatusPrPr:
 #background-page .__footer {{
     margin-top: 50px;
     font-family: "HachiMaruPop";
-    font-size: 22px;
+    font-size: 32px;
     text-align: right;
     color: #b7a89e;/*已持续运行*/
     -webkit-text-stroke: 0.5px #ff000091;  /*已持续运行*/
