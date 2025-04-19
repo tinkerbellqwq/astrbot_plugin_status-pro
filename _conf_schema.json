@@ -1,0 +1,14 @@
+{
+  "is_use_default": {
+    "description": "是否使用默认背景图片",
+    "type": "bool",
+    "hint": "是否使用默认背景图片，默认开启",
+    "default": true
+  },
+  "background_images": {
+    "description": "背景图URL",
+    "type": "list",
+    "hint": "自定义的背景图列表，如: [\"https://example.com/image1.jpg\", \"https://example.com/image2.jpg\"]",
+    "default": []
+  }
+}

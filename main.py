@@ -1,3 +1,5 @@
+from email.policy import default
+
 from playwright.async_api import async_playwright
 
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
@@ -70,7 +72,7 @@ class StatusPrPr:
             valid_extensions = ('.jpg', '.png', '.gif', '.bmp', '.webp')
             files = [f for f in os.listdir(background_path) if f.lower().endswith(valid_extensions)]
             if not files:
-                raise Exception("文件夹中未找到有效图片文件")
+                raise  logger.error(f"没有找到有效的背景图片文件在路径: {background_path}")
             return os.path.join(background_path, random.choice(files)).replace('\\', '/')
 
     def get_cpu_usage(self):
@@ -762,9 +764,28 @@ async def render_html_to_image(content, output_path="output.png"):
 
 @register("status-pro", "StatusPro", "一个显示系统状态的插件", "1.0.0")
 class MyPlugin(Star):
-    def __init__(self, context: Context):
+    def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
+
+        is_use_default = config.get("is_use_default", True)
+        background_images = config.get("background_images", [])
+
+        background_urls = []
+        # 使用默认
+        if is_use_default:
+            default_backgrounds = [
+                os.path.join(os.path.dirname(__file__), 'htmlmaterial/白圣女.txt'),
+                os.path.join(os.path.dirname(__file__), 'htmlmaterial/ba.txt')
+            ]
+            background_urls.extend(default_backgrounds)
+
+        # 添加自定义
+        if background_images:
+            for image in background_images:
+                background_urls.append(image)
+        # 更新配置
         self.status_generator = StatusPrPr()
+        self.status_generator.config["BackgroundURL"] = background_urls
 
     async def initialize(self):
         """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
