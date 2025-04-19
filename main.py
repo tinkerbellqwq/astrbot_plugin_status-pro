@@ -796,7 +796,7 @@ class MyPlugin(Star):
         logger.info("StatusPro插件已卸载")
 
 
-    @filter.command("status")
+    @filter.command("status", alias={'状态', '状态查询'})
     async def handle_status_request(self, event: AstrMessageEvent) -> MessageEventResult:
         """处理请求系统状态的命令"""
         logger.info("收到系统状态请求")
