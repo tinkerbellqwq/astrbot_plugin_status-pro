@@ -16,9 +16,8 @@ from astrbot.core import AstrBotConfig
 
 
 class StatusPrPr:
-    def __init__(self, nums):
+    def __init__(self):
         # 默认配置
-        self.plugin_nums = nums
         self.config = {
             "command": "prprstatus",
             "authority": 1,
@@ -183,7 +182,7 @@ class StatusPrPr:
         minutes = int((uptime_seconds % 3600) // 60)
         return f"正在运行中. . . . . .已持续运行 {days}天 {hours}小时 {minutes}分钟"
 
-    def get_system_info(self):
+    def get_system_info(self, plugins_nums = 0):
         """获取系统信息"""
         cpu_info = self.get_cpu_usage()
         memory_info = self.get_memory_info()
@@ -223,15 +222,15 @@ class StatusPrPr:
                 },
                 {
                     "key": "Plugins",
-                    "value": f"已经加载了{self.plugin_nums}个插件",
+                    "value": f"已经加载了{plugins_nums}个插件",
                 },
             ],
         }
         return system_info
 
-    def generate_html(self):
+    def generate_html(self, platform_name="aiocqhttp", plugins_nums=0):
         """生成HTML页面"""
-        system_info = self.get_system_info()
+        system_info = self.get_system_info(plugins_nums)
         network_status = self.get_network_speed()
         uptime = time.time() - psutil.boot_time()
 
@@ -383,7 +382,7 @@ class StatusPrPr:
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 添加一圈阴影，参数分别为水平偏移、垂直偏移、模糊半径和颜色 */
     margin-left: 20px; /* 调整左侧间距 */
     margin-top: -38px; /* 保持原有的垂直间距 */
-    height: 58px;
+    height: 85px;
     opacity: {self.config["HTML_setting"]["logoblurs"]}; /* 设置透明度 */
     z-index: 2;
     align-items: center; /* 垂直居中对齐 */
@@ -721,7 +720,7 @@ class StatusPrPr:
 
             <li class="__information-block">
                 <span class="__information-block__key">Platform</span>
-                <span class="__information-block__value">python</span>
+                <span class="__information-block__value">{platform_name}</span>
             </li>
 
             <li class="__information-block">
@@ -736,7 +735,7 @@ class StatusPrPr:
 
             </ul>
         <p class="__footer" id="config_footer">{self.duration_time(uptime)}</p>
-        <img class="__footer-image" src="https://avatars.githubusercontent.com/u/197911947?s=48&v=4" />
+        <img class="__footer-image" src="https://avatars.githubusercontent.com/u/197911947?s=96&v=4" />
     </div>
 </div>
 </body>
@@ -765,8 +764,7 @@ async def render_html_to_image(content, output_path="output.png"):
 class MyPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
-        self.plugin_nums = len(context.get_all_stars())
-        self.status_generator = StatusPrPr(self.plugin_nums)
+        self.status_generator = StatusPrPr()
 
     async def initialize(self):
         """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
@@ -782,8 +780,10 @@ class MyPlugin(Star):
         """处理请求系统状态的命令"""
         logger.info("收到系统状态请求")
         try:
+            # 获取消息平台名称
+            platform_name = event.platform_meta.name
             # 生成 HTML
-            html_content = self.status_generator.generate_html()
+            html_content = self.status_generator.generate_html(platform_name , plugins_nums=len(self.context.get_all_stars()))
             # 渲染 HTML 为图片
             await render_html_to_image(html_content)
 
