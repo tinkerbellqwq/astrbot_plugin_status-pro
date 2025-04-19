@@ -240,7 +240,7 @@ class StatusPrPr:
         }
         return system_info
 
-    def generate_html(self, platform_name="aiocqhttp", plugins_nums=0):
+    def generate_html(self, platform_name="aiocqhttp", plugins_nums=0, avatar=""):
         """生成HTML页面"""
         system_info = self.get_system_info(plugins_nums)
         network_status = self.get_network_speed()
@@ -504,6 +504,7 @@ class StatusPrPr:
 <div id="app">
     <div id="background-page">
         <div class="__title">
+            <img src="{avatar}" class="__title-image" alt="Bot Profile" />
             <span class="__title-text" id="config_name">{self.config["botName"]}</span>
             <!-- Insert HTML for profile image would go here -->
         </div>
@@ -829,8 +830,16 @@ class MyPlugin(Star):
         try:
             # 获取消息平台名称
             platform_name = event.platform_meta.name
+
+            # 获得发送者的头像
+
+            user_id = event.get_sender_id()
+
+            avatar = f"https://q4.qlogo.cn/headimg_dl?dst_uin={user_id}&spec=640"
+
             # 生成 HTML
-            html_content = self.status_generator.generate_html(platform_name , plugins_nums=len(self.context.get_all_stars()))
+
+            html_content = self.status_generator.generate_html(platform_name , plugins_nums=len(self.context.get_all_stars()), avatar=avatar)
             # 渲染 HTML 为图片
             await render_html_to_image(html_content)
 
