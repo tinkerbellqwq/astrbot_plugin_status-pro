@@ -3,6 +3,13 @@
 
 > AstrBot 插件
 
+## ✨ 近期更新
+2025-04-19 更新：
+- 新增配置：1. 是否选择默认背景图 2. 可添加自定义背景图
+- 以及一些信息的更改和优化
+![image](https://github.com/user-attachments/assets/0a582cc6-055f-4f6b-afce-b23b4bdd575c)
+
+
 ## 🐔 使用须知
 > [!CAUTION]\
 > 注意！本插件依赖`playwright`渲染`html` 这也就意味着会加大你服务器的负担
