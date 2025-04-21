@@ -192,7 +192,7 @@ class StatusPrPr:
         days = int(uptime_seconds // 86400)
         hours = int((uptime_seconds % 86400) // 3600)
         minutes = int((uptime_seconds % 3600) // 60)
-        return f"正在运行中. . . . . .已持续运行 {days}天 {hours}小时 {minutes}分钟"
+        return f"It has been running  {days} days {hours} hours {minutes} minutes"
 
     def get_system_info(self, plugins_nums = 0):
         """获取系统信息"""
@@ -234,7 +234,7 @@ class StatusPrPr:
                 },
                 {
                     "key": "Plugins",
-                    "value": f"已经加载了{plugins_nums}个插件",
+                    "value": f"Loaded {plugins_nums} plugins",
                 },
             ],
         }
