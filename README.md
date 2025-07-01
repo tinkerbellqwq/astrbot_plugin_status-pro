@@ -23,6 +23,10 @@
   ```shell
   playwright install chromium
   ```
+
+如果你是`docker`用户，请尝试如下操作：![Image](https://github.com/user-attachments/assets/4412b547-5b31-49ae-bb45-1dd778b231ce)
+
+  
 执行完后
 - 输入`/status`即可查看当前机器人状态
 
